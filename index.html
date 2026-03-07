@@ -21,14 +21,48 @@
       background: #000;
     }
 
-    /* ── ENTRY ── */
+    /* ── ENTRY GÜNCELLEME ── */
     #entry {
       position: fixed; inset: 0; z-index: 200;
       background: #000;
       cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
       transition: opacity 1.3s ease, visibility 1.3s ease;
     }
     #entry.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .entry-content {
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+      text-align: center; color: var(--text);
+    }
+
+    .entry-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.5rem; font-weight: 300;
+      letter-spacing: 0.3em;
+      opacity: 0; transform: translateY(15px);
+      animation: entryFade 1.6s ease forwards;
+    }
+
+    .entry-line {
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #entry:hover .entry-line { width: 80px; }
+
+    .entry-sub {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.5em; color: var(--sub);
+      opacity: 0;
+      animation: entryFade 1.6s ease 0.6s forwards;
+    }
+
+    @keyframes entryFade {
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* ── VIDEO ── */
     #vid {
@@ -187,8 +221,13 @@
 </head>
 <body>
 
-<!-- ENTRY - tamamen boş, tıklayınca giriş -->
-<div id="entry" onclick="go()"></div>
+<div id="entry" onclick="go()">
+  <div class="entry-content">
+    <span class="entry-title">m.</span>
+    <div class="entry-line"></div>
+    <span class="entry-sub">click to enter</span>
+  </div>
+</div>
 
 <!-- VIDEO -->
 <video id="vid" playsinline loop></video>
@@ -353,3 +392,4 @@
 </script>
 </body>
 </html>
+
