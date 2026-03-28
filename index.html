@@ -215,7 +215,6 @@
     .tg-item.account { color: rgba(232,213,176,0.7); }
     .tg-item.account:hover { color: var(--accent); }
 
-    /* ── ABOUT MODAL STYLES ── */
     #aboutOverlay {
       position: fixed; inset: 0; z-index: 300;
       background: rgba(0,0,0,0.85);
@@ -342,6 +341,7 @@
 
 <script>
   const VIDEOS = ['abkb.mp4', 'Yinyang.mp4', 'cennet.mp4', 'h.mp4', 'traphouse.mp4', 'sut.mp4', 'unuttumm.mp4', 'sevgi.mkv', 'konsey.mp4', 'SenleZor.mp4'];
+  
   const vid     = document.getElementById('vid');
   const volBtn  = document.getElementById('volbtn');
   const socials = document.getElementById('socials');
@@ -349,14 +349,33 @@
   const icoOff  = document.getElementById('ico-off');
   const tgWrap  = document.getElementById('tgWrap');
 
-  vid.src = VIDEOS[Math.floor(Math.random() * VIDEOS.length)];
+  function getSmartVideo() {
+    const lastOne = sessionStorage.getItem('lastVid');
+    let selected;
+
+    if (VIDEOS.length > 1) {
+      do {
+        selected = VIDEOS[Math.floor(Math.random() * VIDEOS.length)];
+      } while (selected === lastOne); 
+    } else {
+      selected = VIDEOS[0];
+    }
+
+    sessionStorage.setItem('lastVid', selected);
+    return selected;
+  }
+
+  vid.src = getSmartVideo();
 
   function go() {
     document.getElementById('entry').classList.add('gone');
     document.getElementById('veil').classList.add('on');
     vid.muted = false;
     vid.volume = 0.7;
-    vid.play().catch(() => { vid.muted = true; vid.play(); });
+    vid.play().catch(() => { 
+      vid.muted = true; 
+      vid.play(); 
+    });
     vid.classList.add('on');
     socials.classList.add('on');
     volBtn.classList.add('on');
