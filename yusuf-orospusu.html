@@ -15,9 +15,8 @@
             color: #f5f0e8;
         }
 
-        /* Tıklama Sorununu Çözen Giriş Ekranı */
         #entry {
-            position: fixed; inset: 0; z-index: 999; /* En üstte durmalı */
+            position: fixed; inset: 0; z-index: 999;
             background: #000;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
@@ -35,11 +34,25 @@
             letter-spacing: 0.2em;
             z-index: 10;
             text-align: center;
-            display: none; /* Başta gizli */
+            display: none;
             max-width: 90%;
         }
 
-        .center-text a { color: #e8d5b0; text-decoration: underline; display: block; margin-top: 10px; }
+        /* Linkler ve Buton Stili */
+        .center-text a { color: #e8d5b0; text-decoration: none; display: block; margin-top: 10px; }
+        
+        .back-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            border: 1px solid rgba(232,213,176,0.3);
+            display: inline-block;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+        .back-btn:hover { background: #e8d5b0; color: #000; }
 
         .emoji {
             position: fixed; top: -60px;
@@ -64,11 +77,16 @@
     <div class="center-text" id="mainText">
         TC: 13759520170 <br>
         | YUSUF ENES UYAR (7.2.2011) | <br>
+        Whatsapp No; 05446834695
+        Manitasının Whatsapp No; 05359427897
+        Manitasının Telegram Tag; <a href="https://t.me/Ankaraliyim" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">@Ankaraliyim</a>
         Yuzevler Mah. Gocur Pehlivan Sk 7. <br>
         Nur Apt No 5. Kat 5 Daire 7 <br>
         Vergi Numarası: 8981212757 <br>
         AMASYA / MERKEZ <br>
-        <a href="https://shortlink.uk/1tGNm" target="_blank" rel="noopener">EV KOORDİNATLARI</a>
+        <a href="https://shortlink.uk/1tGNm" target="_blank" rel="noopener" style="text-decoration: underline;">EV KOORDİNATLARI</a>
+        
+        <a href="/" class="back-btn">ANA SAYFAYA DÖN</a>
     </div>
 
     <video id="bgVideo" playsinline loop></video>
@@ -77,7 +95,7 @@
         const video = document.getElementById('bgVideo');
         const entry = document.getElementById('entry');
         const mainText = document.getElementById('mainText');
-        const VIDEOS = ['mufasa.mp4',];
+        const VIDEOS = ['simarik.mp4', 'bib.mp4', 'dene.mp4', 'mufasa.mp4','unuttumm.mp4'];
 
         function startEverything() {
             entry.classList.add('gone');
@@ -90,8 +108,7 @@
             const savedTime = localStorage.getItem('musicTime');
             if(savedTime) video.currentTime = savedTime;
 
-            video.play();
-
+            video.play().catch(err => console.log(err));
             setInterval(createEmoji, 150);
         }
 
