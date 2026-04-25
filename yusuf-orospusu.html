@@ -29,12 +29,22 @@
         .entry-sub { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5em; color: rgba(245,240,232,0.55); }
 
         .center-text {
-            font-size: 2.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
             text-transform: uppercase;
-            letter-spacing: 0.4em;
+            letter-spacing: 0.2em;
             z-index: 10;
             text-align: center;
             display: none;
+            max-width: 85%;
+            word-wrap: break-word;
+        }
+
+        .center-text a {
+            color: #e8d5b0;
+            text-decoration: underline;
+            display: block;
+            margin-top: 15px;
         }
 
         .emoji {
@@ -58,13 +68,13 @@
     </div>
 
     <div class="center-text" id="mainText">
-    Tc; 13759520170 
-    | YUSUF ENES UYAR (7.2.2011) | 
-    Yuzevler Mah. Gocur Pehlivan Sk 7. 
-    Nur Apt No 5. Kat 5 Daire 7
-    VergiNumarasi": "8981212757
-    AMASYA/MERKEZ
-    <a class="tg-item" href="https://shortlink.uk/1tGNm" target="_blank" rel="noopener">Ev Koordinatları</a>
+        TC: 13759520170 <br>
+        | YUSUF ENES UYAR (7.2.2011) | <br>
+        Yuzevler Mah. Gocur Pehlivan Sk 7. <br>
+        Nur Apt No 5. Kat 5 Daire 7 <br>
+        Vergi Numarası: 8981212757 <br>
+        AMASYA / MERKEZ <br>
+        <a href="https://shortlink.uk/1tGNm" target="_blank" rel="noopener">EV KOORDİNATLARI</a>
     </div>
 
     <video id="bgVideo" playsinline loop></video>
@@ -74,21 +84,20 @@
         const entry = document.getElementById('entry');
         const mainText = document.getElementById('mainText');
         
-        const lastVidSrc = sessionStorage.getItem('lastVid'); 
+        const VIDEOS = ['mufasa.mp4''];
 
         function startPage() {
             entry.classList.add('gone');
             mainText.style.display = 'block';
 
-            if (lastVidSrc) {
-                video.src = lastVidSrc;
-                video.volume = 0.7;
+            const randomVid = VIDEOS[Math.floor(Math.random() * VIDEOS.length)];
+            video.src = randomVid;
+            video.volume = 0.7;
+            
+            video.play().catch(err => {
+                console.log("Video oynatılamadı, yolların doğru olduğundan emin ol:", err);
+            });
 
-                const savedTime = localStorage.getItem('musicTime');
-                if(savedTime) video.currentTime = savedTime;
-
-                video.play().catch(err => console.log("Oynatma hatası:", err));
-            }
             setInterval(createEmoji, 120);
         }
 
@@ -96,12 +105,11 @@
             const emojis = ['😂'];
             const e = document.createElement('div');
             e.classList.add('emoji');
-            e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            e.innerText = emojis[0];
             e.style.left = Math.random() * 100 + "vw";
             e.style.animationDuration = (Math.random() * 2 + 2) + "s";
             e.style.opacity = Math.random();
             e.style.fontSize = (Math.random() * 25 + 15) + "px";
-
             document.body.appendChild(e);
             setTimeout(() => e.remove(), 4000);
         }
