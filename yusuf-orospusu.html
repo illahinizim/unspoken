@@ -15,13 +15,13 @@
             color: #f5f0e8;
         }
 
+        /* Tıklama Sorununu Çözen Giriş Ekranı */
         #entry {
-            position: fixed; inset: 0; z-index: 200;
+            position: fixed; inset: 0; z-index: 999; /* En üstte durmalı */
             background: #000;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             flex-direction: column;
-            transition: opacity 1s ease;
         }
         #entry.gone { opacity: 0; visibility: hidden; pointer-events: none; }
 
@@ -29,23 +29,17 @@
         .entry-sub { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5em; color: rgba(245,240,232,0.55); }
 
         .center-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 1rem;
+            line-height: 1.6;
             text-transform: uppercase;
             letter-spacing: 0.2em;
             z-index: 10;
             text-align: center;
-            display: none;
-            max-width: 85%;
-            word-wrap: break-word;
+            display: none; /* Başta gizli */
+            max-width: 90%;
         }
 
-        .center-text a {
-            color: #e8d5b0;
-            text-decoration: underline;
-            display: block;
-            margin-top: 15px;
-        }
+        .center-text a { color: #e8d5b0; text-decoration: underline; display: block; margin-top: 10px; }
 
         .emoji {
             position: fixed; top: -60px;
@@ -62,9 +56,9 @@
 </head>
 <body>
 
-    <div id="entry" onclick="startPage()">
+    <div id="entry" onclick="startEverything()">
         <div class="entry-line"></div>
-        <span class="entry-sub">click to enter</span>
+        <span class="entry-sub">CLICK TO ENTER</span>
     </div>
 
     <div class="center-text" id="mainText">
@@ -83,33 +77,32 @@
         const video = document.getElementById('bgVideo');
         const entry = document.getElementById('entry');
         const mainText = document.getElementById('mainText');
-        
-        const VIDEOS = ['mufasa.mp4''];
+        const VIDEOS = ['mufasa.mp4',];
 
-        function startPage() {
+        function startEverything() {
             entry.classList.add('gone');
             mainText.style.display = 'block';
 
-            const randomVid = VIDEOS[Math.floor(Math.random() * VIDEOS.length)];
-            video.src = randomVid;
+            const lastVid = sessionStorage.getItem('lastVid') || VIDEOS[0];
+            video.src = lastVid;
             video.volume = 0.7;
             
-            video.play().catch(err => {
-                console.log("Video oynatılamadı, yolların doğru olduğundan emin ol:", err);
-            });
+            const savedTime = localStorage.getItem('musicTime');
+            if(savedTime) video.currentTime = savedTime;
 
-            setInterval(createEmoji, 120);
+            video.play();
+
+            setInterval(createEmoji, 150);
         }
 
         function createEmoji() {
-            const emojis = ['😂'];
             const e = document.createElement('div');
             e.classList.add('emoji');
-            e.innerText = emojis[0];
+            e.innerText = '😂';
             e.style.left = Math.random() * 100 + "vw";
             e.style.animationDuration = (Math.random() * 2 + 2) + "s";
             e.style.opacity = Math.random();
-            e.style.fontSize = (Math.random() * 25 + 15) + "px";
+            e.style.fontSize = (Math.random() * 20 + 20) + "px";
             document.body.appendChild(e);
             setTimeout(() => e.remove(), 4000);
         }
