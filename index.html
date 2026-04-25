@@ -396,30 +396,44 @@
 
   vid.src = getSmartVideo();
 
+  vid.addEventListener('ended', () => {
+    // Yeni bir video seç
+    const nextVid = getSmartVideo();
+    
+    vid.style.opacity = '0';
+    
+    setTimeout(() => {
+      vid.src = nextVid;
+      vid.load();
+      vid.play().then(() => {
+        vid.style.opacity = '1';
+      }).catch(err => console.log("Oynatma hatası:", err));
+    }, 500);
+  });
+
   function go() {
     const entry = document.getElementById('entry');
     const veil = document.getElementById('veil');
+    const volBtn = document.getElementById('volbtn');
     
     vid.muted = false;
     vid.volume = 0.7;
 
-    const playPromise = vid.play();
-
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        entry.classList.add('gone');
-        veil.classList.add('on');
-        vid.classList.add('on');
-        document.getElementById('socials').classList.add('on');
-      }).catch(error => {
-        vid.muted = true;
-        vid.play();
-        entry.classList.add('gone');
-        veil.classList.add('on');
-        vid.classList.add('on');
-        document.getElementById('socials').classList.add('on');
-      });
-    }
+    vid.play().then(() => {
+      entry.classList.add('gone');
+      veil.classList.add('on');
+      vid.classList.add('on');
+      volBtn.classList.add('on'); 
+      document.getElementById('socials').classList.add('on');
+    }).catch(error => {
+      vid.muted = true;
+      vid.play();
+      entry.classList.add('gone');
+      veil.classList.add('on');
+      vid.classList.add('on');
+      volBtn.classList.add('on');
+      document.getElementById('socials').classList.add('on');
+    });
   }
 
   function toggleMute() {
